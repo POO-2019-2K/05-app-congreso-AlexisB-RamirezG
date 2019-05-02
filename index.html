@@ -7,15 +7,71 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Congress</title>
     <link href="bootstrap.css" type="text/css" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Patua+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:bold" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:bold" rel="stylesheet">
 </head>
 
 <body>
-    <button type="button" class="btn btn-warning rounded-pill" id="btnRegister">Register</button>
-    <div id="container" class="border border-dark">
-        <h1>H</h1>
+    <img src="logo.png" class="rounded float-left">
+    <div class="jumbotron">
+        <div>
+            <p class="float-right mt-4 bar"><u>Support us</u></p>
+            <p class="float-right mt-4 mr-3 bar"><u>About us</u></p>
+        </div>
     </div>
-    <script src="main.js" type="module"></script>    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 container container-fluid container-form">
+                <form id="form" class="col-12 needs validation" novalidate>
+                    <h5 class="register mt-3">REGISTER A WORKSHOP</h1>
+                        <div class="form-group">
+                            <label for="name">Workshop name</label>
+                            <input type="text" class="form-control" id="name" placeholder="How is it named?" required />
+                            <div class="valid-feedback">Correct</div>
+                            <div class="invalid-feedback">The name is needed</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sDate">Start date</label>
+                            <input type="date" class="form-control" id="sDate" placeholder="When does it start?"
+                                required />
+                            <div class="valid-feedback">Correct</div>
+                            <div class="invalid-feedback">The start date is needed</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fDate">Finish date</label>
+                            <input type="date" class="form-control" id="fDate" placeholder="When does it end?"
+                                required />
+                            <div class="valid-feedback">Correct</div>
+                            <div class="invalid-feedback">The finish date is needed</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="spots">Spots</label>
+                            <input type="text" class="form-control" id="spots" placeholder="How many students?"
+                                required />
+                            <div class="valid-feedback">Correct</div>
+                            <div class="invalid-feedback">Spot number is needed</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="duration">Duration</label>
+                            <input type="text" class="form-control" id="duration" placeholder="How many hours?"
+                                required />
+                            <div class="valid-feedback">Correct</div>
+                            <div class="invalid-feedback">The duration is needed</div>
+                        </div>
+                        <button type="button" class="btn rounded-pill mb-5" id="btnRegister">Register</button>
+                </form>
+            </div>
+            <div id="container" class="col-md-9 containercontainer-full">
+                <h1 class="pt-2">WORKSHOP LIST</h1>
+                <label id="not-yet">There's no workshops registered yet</label>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js" type="module"></script>
 </body>
 
 </html>

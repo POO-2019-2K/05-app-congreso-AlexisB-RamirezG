@@ -9,9 +9,48 @@
   PERSONAL CLASSES
 */ 
 
+#not-yet {
+  color: #6c757d;
+  padding-left: 350px;
+}
+
+th {
+  color: rgb(27, 57, 106);
+}
+
+html, body {
+  height: 100%;
+}
+
+.register { 
+  font-family: 'Montserrat';
+  font-weight: 500;
+  line-height: 1.2;
+  color:white;
+}
+
+
 #container {
   width: 40%;
   height: 40%;
+}
+
+.container-form {
+  background-color: rgb(105, 171, 187);
+  height: 100%;
+}
+
+.bar {
+  color: white;
+}
+
+.titleP {
+  margin-bottom: 0.5rem;
+  font-family: 'Bowlby One SC', cursive;
+  font-weight: 500;
+  line-height: 1.2;
+  color: white;
+  font-size: 70px;
 }
 
 /* 
@@ -247,10 +286,16 @@ th {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
+  font-family: 'Raleway';
+  color: white;
 }
 
 button {
-  border-radius: 0;
+  border-radius: 10px;
+  font-family: "Raleway";
+  color: rgb(74, 135, 150);
+  background-color: white;
+  border-color: rgb(27, 57, 106);
 }
 
 button:focus {
@@ -259,7 +304,6 @@ button:focus {
 }
 
 input,
-button,
 select,
 optgroup,
 textarea {
@@ -372,10 +416,20 @@ template {
   display: none !important;
 }
 
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
+h1, 
+.h1 {
   margin-bottom: 0.5rem;
-  font-family: inherit;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  line-height: 1.2;
+  color:rgb(27, 57, 106);
+  text-align: center;
+}
+
+h2, h3, h4, h5, h6,
+.h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 0.5rem;
+  font-family: 'Alfa Slab One', cursive;
   font-weight: 500;
   line-height: 1.2;
   color: inherit;
@@ -562,6 +616,7 @@ pre code {
 
 .container {
   width: 100%;
+  height: 100%;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
@@ -1858,6 +1913,7 @@ pre code {
 .form-control::-webkit-input-placeholder {
   color: #6c757d;
   opacity: 1;
+  font-family: 'Raleway', sans-serif;
 }
 
 .form-control::-moz-placeholder {
@@ -4892,9 +4948,9 @@ input[type="button"].btn-block {
 
 .jumbotron {
   padding: 2rem 1rem;
-  margin-bottom: 2rem;
   background-color: #e9ecef;
-  border-radius: 0.3rem;
+  background-color: rgb(27, 57, 106);
+  height: 0;
 }
 
 @media (min-width: 576px) {
