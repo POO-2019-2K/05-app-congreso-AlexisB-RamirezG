@@ -9,13 +9,19 @@
   PERSONAL CLASSES
 */ 
 
-#not-yet {
-  color: #6c757d;
-  padding-left: 350px;
+table {
+  align-content: center;
 }
 
 th {
+  width: 26%;
+  font-family: 'Montserrat';
   color: rgb(27, 57, 106);
+}
+
+#not-yet {
+  color: #6c757d;
+  padding-left: 350px;
 }
 
 html, body {
