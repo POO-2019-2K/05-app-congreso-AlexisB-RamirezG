@@ -24,47 +24,47 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 container container-fluid container-form">
+            <div id="container-form" class="col-md-3 container container-fluid container-form">
                 <form id="form" class="col-12 needs validation" novalidate>
                     <h5 class="register mt-3">REGISTER A WORKSHOP</h1>
                         <div class="form-group">
                             <label for="name">Workshop name</label>
-                            <input type="text" class="form-control" id="name" placeholder="How is it named?" required />
+                            <input type="text" class="form-control form-control-sm" id="name" placeholder="How is it named?" required />
                             <div class="valid-feedback">Correct</div>
                             <div class="invalid-feedback">The name is needed</div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-1">
                             <label for="sDate">Start date</label>
-                            <input type="date" class="form-control" id="sDate" placeholder="When does it start?"
+                            <input type="date" class="form-control form-control-sm" id="sDate" placeholder="When does it start?"
                                 required />
                             <div class="valid-feedback">Correct</div>
                             <div class="invalid-feedback">The start date is needed</div>
                         </div>
                         <div class="form-group">
                             <label for="fDate">Finish date</label>
-                            <input type="date" class="form-control" id="fDate" placeholder="When does it end?"
+                            <input type="date" class="form-control form-control-sm" id="fDate" placeholder="When does it end?"
                                 required />
                             <div class="valid-feedback">Correct</div>
                             <div class="invalid-feedback">The finish date is needed</div>
                         </div>
                         <div class="form-group">
                             <label for="spots">Spots</label>
-                            <input type="text" class="form-control" id="spots" placeholder="How many students?"
+                            <input type="text" class="form-control form-control-sm" id="spots" placeholder="How many students?"
                                 required />
                             <div class="valid-feedback">Correct</div>
                             <div class="invalid-feedback">The spot number is needed</div>
                         </div>
                         <div class="form-group">
                             <label for="duration">Duration</label>
-                            <input type="text" class="form-control" id="duration" placeholder="How many hours?"
+                            <input type="text" class="form-control form-control-sm" id="duration" placeholder="How many hours?"
                                 required />
                             <div class="valid-feedback">Correct</div>
                             <div class="invalid-feedback">The duration is needed</div>
                         </div>
-                        <button type="button" class="btn rounded-pill mb-5" id="btnRegister">Register</button>
+                        <button type="button" class="btn rounded-pill mb-2" id="btnRegister">Register</button>
                 </form>
             </div>
-            <div id="container" class="col-md-9 containercontainer-full">
+            <div id="container" class="col-md-9 container container-full mr-0">
                 <h1 class="pt-2">WORKSHOP LIST</h1>
                 <label id="not-yet">There's no workshops registered yet</label>
             </div>

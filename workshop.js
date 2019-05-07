@@ -5,6 +5,7 @@ export default class Workshop {
         this._duration = workshop.duration;
         this._fDate = workshop.fDate;
         this._sDate = workshop.sDate;
+        this._participants = [];
     }
 
     get name() {
@@ -33,5 +34,13 @@ export default class Workshop {
         let finishDate = splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
 
         return finishDate;
+    }
+
+    get participants() {
+        return this._participants;
+    }
+
+    set participants(participants) {
+        this._participants = participants;
     }
 }

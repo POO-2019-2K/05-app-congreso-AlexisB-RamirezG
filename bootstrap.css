@@ -9,14 +9,52 @@
   PERSONAL CLASSES
 */ 
 
+.logoCell {
+  width: 0%;
+}
+
+.logo-size {
+  width: 150px;
+  display: inline-block;
+  padding-right: 0px;
+}
+
+.addCell {
+  color: rgb(42, 42, 42);
+  font-family: "Raleway";
+  padding-left: 300px;
+}
+
+.btn-add {
+  border-radius: 30px;
+  font-family: "Montserrat";
+  color: black;
+  border: none;
+  font-size: 18px;
+  width: 28px;
+}
+
+.studCell {
+  color: rgb(27, 57, 106);
+}
+
+#btnRegister {
+  border-radius: 500px;
+}
+
+#container-form {
+  height: 100%;
+  /* position: fixed; */
+}
+
 table {
   align-content: center;
 }
 
-th {
+.th-h {
   width: 26%;
   font-family: 'Montserrat';
-  color: rgb(27, 57, 106);
+  color: rgb(255, 255, 255);
 }
 
 #not-yet {
@@ -226,7 +264,7 @@ a {
 }
 
 a:hover {
-  color: #0056b3;
+  color: rgb(27, 57, 106);
   text-decoration: underline;
 }
 
@@ -355,6 +393,8 @@ input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
   -webkit-appearance: listbox;
+  font-family: 'Raleway', sans-serif;
+  color: gray;
 }
 
 textarea {
@@ -1598,7 +1638,7 @@ pre code {
 .table td {
   padding: 0.75rem;
   vertical-align: top;
-  border-top: 1px solid #dee2e6;
+  /* border-top: 1px solid #dee2e6; */
 }
 
 .table thead th {
@@ -2004,6 +2044,8 @@ select.form-control:focus::-ms-value {
   font-size: 0.875rem;
   line-height: 1.5;
   border-radius: 0.2rem;
+  font-family: 'Raleway', sans-serif;
+  border: none;
 }
 
 .form-control-lg {
