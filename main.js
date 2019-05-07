@@ -1,7 +1,10 @@
 import Workshop from "./workshop.js";
+import Record from "./record.js";
 
 class Main {
   constructor() {
+    let record = new Record();
+
     document.querySelector("#btnRegister").addEventListener("click", () => {
       let form = document.querySelector("#form");
 
@@ -9,106 +12,32 @@ class Main {
         // Get the form information
         let name = document.querySelector("#name").value;
         let sDate = document.querySelector("#sDate").value;
+        sDate = sDate.split("-");
+        let startingDate = new Date(sDate[0], sDate[1] - 1, sDate[2]);
         let fDate = document.querySelector("#fDate").value;
+        fDate = fDate.split("-");
+        let finishDate = new Date(fDate[0], fDate[1] - 1, fDate[2]);
         let spots = document.querySelector("#spots").value;
         let duration = document.querySelector("#duration").value;
-
-        let objWorkshop = {
-          name: name,
-          sDate: sDate,
-          fDate: fDate,
-          spots: spots,
-          duration: duration
-        }
-
-        let workshop = new Workshop(objWorkshop);
+        let participants = [];
 
         // Left blank the phrase "There's no workshops registered yet"
         let notYet = document.querySelector("#not-yet");
         notYet.innerHTML = "";
 
-        // Create the table
-        let container = document.getElementById("container");
+        let objWorkshop = {
+          name: name,
+          sDate: startingDate,
+          fDate: finishDate,
+          spots: spots,
+          duration: duration,
+          participants: participants
+        }
 
-        let wsTable = document.createElement("table");
-        wsTable.className = "table";
-        var tblBody = document.createElement("tbody");
+        let workshop = new Workshop(objWorkshop);
 
-        // Create the headers' row
-        var row = document.createElement("tr");
-        
-        /*
-        let logoCell = document.createElement("th");
-        logoCell.className = "logoCell";
-        let logo = document.createElement("img");
-        logo.className = "logo-size";
-        logo.src = 'logo.png';
-        logoCell.appendChild(logo);
-        row.appendChild(logoCell);
-        */
+        record.addWorkshop(workshop);
 
-        let cell = document.createElement("th");
-        cell.className = "th-h bg-info";
-        let cellText = document.createTextNode(`"${workshop.name.toUpperCase()}"`);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        let cell2 = document.createElement("th");
-        cell2.className = "th-h bg-info";
-        let cellText2 = document.createTextNode(`${workshop.getStartDateAsString()} - ${workshop.getFinishDateAsString()}`);
-        cell2.appendChild(cellText2);
-        row.appendChild(cell2);
-
-        let cell3 = document.createElement("th");
-        cell3.className = "th-h bg-info";
-        let cellText3 = document.createTextNode(`SPOTS: ${workshop.spots}`);
-        cell3.appendChild(cellText3);
-        row.appendChild(cell3);
-
-        let cell4 = document.createElement("th");
-        cell4.className = "th-h bg-info";
-        let cellText4 = document.createTextNode(`DURATION: ${workshop.duration} HOURS`);
-        cell4.appendChild(cellText4);
-        row.appendChild(cell4);
-
-        // 
-
-        let pTable = document.createElement("table");
-        pTable.className = "table border table-responsive max-width";
-        var pTblBody = document.createElement("tbody");
-
-        var row2 = document.createElement("tr");
-
-        let studCell = document.createElement("th");
-        studCell.className = "studCell th";
-        let studCellText = document.createTextNode(`PARTICIPANTS:`);
-        studCell.appendChild(studCellText);
-        row2.appendChild(studCell);
-
-        let addCell = document.createElement("th");
-        addCell.className = "addCell th";
-        let addCellText = document.createTextNode(`Register a new one`);
-        addCell.appendChild(addCellText);
-        row2.appendChild(addCell);
-
-        let btnCell = document.createElement("th");
-        btnCell.className = "addCell th";
-        let btnAdd = document.createElement("input");
-        btnAdd.type = "button";
-        btnAdd.value = "+";
-        btnAdd.className = "btn-add";
-        btnAdd.addEventListener("click", () => {
-        });
-        btnCell.appendChild(btnAdd);
-        row2.appendChild(btnCell);
-
-        tblBody.appendChild(row);
-        pTblBody.appendChild(row2);
-
-        wsTable.appendChild(tblBody);
-        container.appendChild(wsTable);
-        pTable.appendChild(pTblBody);
-        container.appendChild(pTable);
       }
 
       form.classList.add("was-validated");

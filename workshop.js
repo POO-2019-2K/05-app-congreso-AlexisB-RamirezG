@@ -3,9 +3,9 @@ export default class Workshop {
         this._name = workshop.name.toUpperCase();
         this._spots = workshop.spots;
         this._duration = workshop.duration;
-        this._fDate = workshop.fDate;
-        this._sDate = workshop.sDate;
-        this._participants = [];
+        this._fDate = new Date(workshop.fDate);
+        this._sDate = new Date(workshop.sDate);
+        this._participants = workshop.participants;
     }
 
     get name() {
@@ -15,25 +15,31 @@ export default class Workshop {
     get spots() {
         return this._spots;
     }
-    
+
     get duration() {
         return this._duration;
     }
 
     getStartDateAsString() {
-        let splitDate = this._sDate.split("-");
-        console.log(splitDate);
-        let startDate = splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
+        let date =
+            this._sDate.getDate() +
+            "/" +
+            this._sDate.getMonth() +
+            "/" +
+            this._sDate.getFullYear();
 
-        return startDate;
+        return date;
     }
 
     getFinishDateAsString() {
-        let splitDate = this._fDate.split("-");
-        console.log(splitDate);
-        let finishDate = splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
+        let date =
+            this._fDate.getDate() +
+            "/" +
+            this._fDate.getMonth() +
+            "/" +
+            this._fDate.getFullYear();
 
-        return finishDate;
+        return date;
     }
 
     get participants() {

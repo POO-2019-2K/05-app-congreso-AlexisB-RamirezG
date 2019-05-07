@@ -23,15 +23,32 @@
   color: rgb(42, 42, 42);
   font-family: "Raleway";
   padding-left: 300px;
+  align-content: right;
+}
+
+.btn-delete {
+  border-radius: 30px;
+  font-family: "Montserrat";
+  color: white;
+  background-color: #dc3545;
+  border: none;
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  padding-bottom: 20px;
+  padding-top: 0px;
+  margin-left: 5px;
 }
 
 .btn-add {
   border-radius: 30px;
   font-family: "Montserrat";
-  color: black;
+  color: white;
+  background-color: #17a2b8;
   border: none;
-  font-size: 18px;
-  width: 28px;
+  font-size: 20px;
+  width: 30px;
+  margin-left: 5px;
 }
 
 .studCell {
@@ -55,6 +72,7 @@ table {
   width: 26%;
   font-family: 'Montserrat';
   color: rgb(255, 255, 255);
+  font-size: 15px;
 }
 
 #not-yet {
