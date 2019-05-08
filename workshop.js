@@ -8,6 +8,10 @@ export default class Workshop {
         this._participants = workshop.participants;
     }
 
+    get sDate() {
+        return this._sDate;
+    }
+
     get name() {
         return this._name;
     }

@@ -3,7 +3,8 @@ import Record from "./record.js";
 
 class Main {
   constructor() {
-    let record = new Record();
+    let body = document.querySelector('#body');
+    let record = new Record(body);
 
     document.querySelector("#btnRegister").addEventListener("click", () => {
       let form = document.querySelector("#form");
@@ -13,10 +14,10 @@ class Main {
         let name = document.querySelector("#name").value;
         let sDate = document.querySelector("#sDate").value;
         sDate = sDate.split("-");
-        let startingDate = new Date(sDate[0], sDate[1] - 1, sDate[2]);
+        let startingDate = new Date(sDate[0], sDate[1], sDate[2]);
         let fDate = document.querySelector("#fDate").value;
         fDate = fDate.split("-");
-        let finishDate = new Date(fDate[0], fDate[1] - 1, fDate[2]);
+        let finishDate = new Date(fDate[0], fDate[1], fDate[2]);
         let spots = document.querySelector("#spots").value;
         let duration = document.querySelector("#duration").value;
         let participants = [];
@@ -24,7 +25,7 @@ class Main {
         // Left blank the phrase "There's no workshops registered yet"
         let notYet = document.querySelector("#not-yet");
         notYet.innerHTML = "";
-
+        
         let objWorkshop = {
           name: name,
           sDate: startingDate,
@@ -32,7 +33,10 @@ class Main {
           spots: spots,
           duration: duration,
           participants: participants
+          
         }
+
+        console.log(objWorkshop);
 
         let workshop = new Workshop(objWorkshop);
 

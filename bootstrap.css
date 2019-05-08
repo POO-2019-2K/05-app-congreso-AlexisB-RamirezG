@@ -9,6 +9,25 @@
   PERSONAL CLASSES
 */ 
 
+.divForm {
+  position: fixed;
+  top: 30px;
+  left: 500px;
+  width: 30%;
+  height: 80%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 30px;
+}
+
+.divBlack {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.582);
+}
+
 .logoCell {
   width: 0%;
 }

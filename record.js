@@ -1,12 +1,17 @@
 import Workshop from "./workshop.js";
 
 export default class Record {
-    constructor() {
+    constructor(body) {
         this._workshops = [];
-
-        // localStorage.removeItem("workshops");
+        this._body = body;
+        //localStorage.removeItem("workshops");
 
         this._initRecord();
+    }
+    
+    _getFormatedDate(date) {
+        let sDate = date.split("/");
+        return new Date(sDate[2],sDate[1],sDate[0]);
     }
 
     _initRecord() {
@@ -18,8 +23,8 @@ export default class Record {
         }
 
         listWorkshops.forEach((e, index) => {
-            e.sDate = new Date(e.sDate);
-            e.fDate = new Date(e.fDate);
+            e.sDate = this._getFormatedDate(e.sDate);
+            e.fDate = this._getFormatedDate(e.fDate);
             let notYet = document.querySelector("#not-yet");
             notYet.innerHTML = "";
             this._addToRecord(new Workshop(e));
@@ -117,6 +122,24 @@ export default class Record {
         btnAdd.value = "+";
         btnAdd.className = "btn-add";
         btnAdd.addEventListener("click", () => {
+            let divBlack = document.createElement("div");
+            divBlack.classList = "divBlack";
+
+            this._body.appendChild(divBlack);
+            
+            let divForm = document.createElement("div")
+            divForm.classList = "divForm";
+
+            let name = document.createElement("input")
+            name.type = "text";
+            divForm.appendChild(name);
+            
+            this._body.appendChild(divForm);
+
+            let tmpRow = document.createElement("tr");
+            tmpRow.className = "border";
+            tmpRow.innerHTML="Hola";
+            tblBody.appendChild(tmpRow);
         });
         btnCell.appendChild(btnAdd);
         row2.appendChild(btnCell);
@@ -129,12 +152,13 @@ export default class Record {
 
         let objWorkshop = {
             name: workshop.name,
-            sDate: workshop.sDate,
-            fDate: workshop.fDate,
+            sDate: workshop.getStartDateAsString(),
+            fDate: workshop.getFinishDateAsString(),
             spots: workshop.spots,
             duration: workshop.duration,
             participants: workshop.participants
         }
+        console.log(objWorkshop);
 
         this._workshops.push(objWorkshop);
     }
