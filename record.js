@@ -4,14 +4,14 @@ export default class Record {
     constructor(body) {
         this._workshops = [];
         this._body = body;
-        //localStorage.removeItem("workshops");
+        // localStorage.removeItem("workshops");
 
         this._initRecord();
     }
-    
+
     _getFormatedDate(date) {
         let sDate = date.split("/");
-        return new Date(sDate[2],sDate[1],sDate[0]);
+        return new Date(sDate[2], sDate[1], sDate[0]);
     }
 
     _initRecord() {
@@ -29,6 +29,77 @@ export default class Record {
             notYet.innerHTML = "";
             this._addToRecord(new Workshop(e));
         });
+    }
+
+    _createForm(workshop) {
+        let divBlack = document.createElement("div");
+        divBlack.classList = "divBlack";
+
+        this._body.appendChild(divBlack);
+
+        let divForm = document.createElement("div")
+        divForm.classList = "divForm";
+
+        var h1Form = document.createElement("H1") 
+        h1Form.classList = "pt-2";
+        var h1FormText = document.createTextNode("REGISTER A PARTICIPANT"); 
+        h1Form.appendChild(h1FormText);
+        divForm.appendChild(h1Form);
+
+        let labelName = document.createElement("LABEL");
+        labelName.classList = "label-dynamic-form";
+        labelName.innerText = "Name:";
+        divForm.appendChild(labelName);
+
+        let inputName = document.createElement("input")
+        inputName.type = "text";
+        inputName.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
+        divForm.appendChild(inputName);
+
+        let labelBirthday = document.createElement("LABEL");
+        labelBirthday.classList = "label-dynamic-form";
+        labelBirthday.innerText = "Birth date:";
+        divForm.appendChild(labelBirthday);
+
+        let inputBirthday = document.createElement("input")
+        inputBirthday.type = "date";
+        inputBirthday.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
+        divForm.appendChild(inputBirthday);
+
+        let labelEmail = document.createElement("LABEL");
+        labelEmail.classList = "label-dynamic-form";
+        labelEmail.innerText = "Email:";
+        divForm.appendChild(labelEmail);
+
+        let inputEmail = document.createElement("input")
+        inputEmail.type = "email";
+        inputEmail.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
+        divForm.appendChild(inputEmail);
+
+        let btnAdd = document.createElement("input");
+        btnAdd.type = "button";
+        btnAdd.value = "Add";
+        btnAdd.className = "btn-add-student";
+        btnAdd.addEventListener("click", () => {
+        });
+        divForm.appendChild(btnAdd);
+
+        let btnCancel = document.createElement("input");
+        btnCancel.type = "button";
+        btnCancel.value = "Cancel";
+        btnCancel.className = "btn-cancel-student";
+        btnCancel.addEventListener("click", () => {
+        });
+        divForm.appendChild(btnCancel);
+
+        this._body.appendChild(divForm);
+
+        /*
+        let tmpRow = document.createElement("tr");
+        tmpRow.className = "border";
+        tmpRow.innerHTML = "Hola";
+        tblBody.appendChild(tmpRow);
+        */
     }
 
     _addToRecord(workshop) {
@@ -82,8 +153,7 @@ export default class Record {
         btnDelete.type = "button";
         btnDelete.value = "x";
         btnDelete.className = "btn-delete";
-        btnDelete.addEventListener("click", () => {
-        });
+        btnDelete.addEventListener("click", () => {});
         cell5.appendChild(btnDelete);
         row.appendChild(cell5);
 
@@ -110,7 +180,7 @@ export default class Record {
         row2.appendChild(blank2Cell);
 
         let addCell = document.createElement("th");
-        addCell.className = "addCell th";
+        addCell.className = "addCell th float-right";
         let addCellText = document.createTextNode(`Register a new one`);
         addCell.appendChild(addCellText);
         row2.appendChild(addCell);
@@ -122,24 +192,7 @@ export default class Record {
         btnAdd.value = "+";
         btnAdd.className = "btn-add";
         btnAdd.addEventListener("click", () => {
-            let divBlack = document.createElement("div");
-            divBlack.classList = "divBlack";
-
-            this._body.appendChild(divBlack);
-            
-            let divForm = document.createElement("div")
-            divForm.classList = "divForm";
-
-            let name = document.createElement("input")
-            name.type = "text";
-            divForm.appendChild(name);
-            
-            this._body.appendChild(divForm);
-
-            let tmpRow = document.createElement("tr");
-            tmpRow.className = "border";
-            tmpRow.innerHTML="Hola";
-            tblBody.appendChild(tmpRow);
+            this._createForm(workshop);
         });
         btnCell.appendChild(btnAdd);
         row2.appendChild(btnCell);
@@ -158,7 +211,6 @@ export default class Record {
             duration: workshop.duration,
             participants: workshop.participants
         }
-        console.log(objWorkshop);
 
         this._workshops.push(objWorkshop);
     }

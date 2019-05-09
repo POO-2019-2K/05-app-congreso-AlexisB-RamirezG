@@ -21,6 +21,7 @@ class Main {
         let spots = document.querySelector("#spots").value;
         let duration = document.querySelector("#duration").value;
         let participants = [];
+        let id = 0;
 
         // Left blank the phrase "There's no workshops registered yet"
         let notYet = document.querySelector("#not-yet");
@@ -32,8 +33,8 @@ class Main {
           fDate: finishDate,
           spots: spots,
           duration: duration,
-          participants: participants
-          
+          participants: participants,
+          id: id
         }
 
         console.log(objWorkshop);

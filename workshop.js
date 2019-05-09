@@ -6,6 +6,7 @@ export default class Workshop {
         this._fDate = new Date(workshop.fDate);
         this._sDate = new Date(workshop.sDate);
         this._participants = workshop.participants;
+        this._id = workshop.id;
     }
 
     get sDate() {
