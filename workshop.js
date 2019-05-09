@@ -58,4 +58,8 @@ export default class Workshop {
     set participants(participants) {
         this._participants = participants;
     }
+
+    set spots(spots) {
+        this._spots = spots;
+    }
 }

@@ -25,6 +25,7 @@ export default class Record {
         }
 
         listWorkshops.forEach((e, index) => {
+            console.log(e);
             e.sDate = this._getFormatedDate(e.sDate);
             e.fDate = this._getFormatedDate(e.fDate);
             let notYet = document.querySelector("#not-yet");
@@ -74,13 +75,23 @@ export default class Record {
 
     _addParticipant(workshop, participant, tblBody) {
         participant.id = workshop.id;
+        workshop.spots = workshop.spots - 1;
         workshop.participants.push(participant);
         console.log(workshop);
         let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
-        listWorkshops[workshop.id - 1] = workshop;
-        
+        let objWorkshop = {
+            name: workshop.name,
+            sDate: workshop.getStartDateAsString(),
+            fDate: workshop.getFinishDateAsString(),
+            spots: workshop.spots,
+            duration: workshop.duration,
+            participants: workshop.participants,
+            id: this._id,
+        }
+        listWorkshops[workshop.id - 1] = objWorkshop;
         console.log(listWorkshops);
         this._addParticipantsToTable(participant, tblBody);
+        localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
     _createForm(workshop, tblBody) {
