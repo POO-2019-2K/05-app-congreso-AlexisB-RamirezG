@@ -37,8 +37,6 @@ class Main {
           id: id
         }
 
-        console.log(objWorkshop);
-
         let workshop = new Workshop(objWorkshop);
 
         record.addWorkshop(workshop);

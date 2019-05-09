@@ -25,6 +25,10 @@ export default class Workshop {
         return this._duration;
     }
 
+    get id() {
+        return this._id;
+    }
+
     getStartDateAsString() {
         let date =
             this._sDate.getDate() +

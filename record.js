@@ -1,10 +1,12 @@
 import Workshop from "./workshop.js";
+import Participant from "./participant.js";
 
 export default class Record {
     constructor(body) {
         this._workshops = [];
         this._body = body;
         // localStorage.removeItem("workshops");
+        this._id = 0;
 
         this._initRecord();
     }
@@ -31,18 +33,68 @@ export default class Record {
         });
     }
 
-    _createForm(workshop) {
+    _addParticipantsToTable(participant, tblBody) {
+        var rowP = document.createElement("tr");
+        rowP.className = "border";
+
+        let nameCell = document.createElement("td");
+        nameCell.className = "th";
+        let nameCellText = document.createTextNode(participant.name);
+        nameCell.appendChild(nameCellText);
+        rowP.appendChild(nameCell);
+
+        let birthdayCell = document.createElement("td");
+        birthdayCell.className = "th";
+        let birthdayCellText = document.createTextNode(participant.birthday);
+        birthdayCell.appendChild(birthdayCellText);
+        rowP.appendChild(birthdayCell);
+
+        let emailCell = document.createElement("td");
+        emailCell.className = "th";
+        let emailCellText = document.createTextNode(participant.email);
+        emailCell.appendChild(emailCellText);
+        rowP.appendChild(emailCell);
+
+        let blankCell = document.createElement("td");
+        blankCell.className = "th";
+        rowP.appendChild(blankCell);
+
+        let deleteBtnCell = document.createElement("th");
+        deleteBtnCell.className = "th";
+        let btnDelete = document.createElement("input");
+        btnDelete.type = "button";
+        btnDelete.value = "x";
+        btnDelete.className = "btn-delete";
+        btnDelete.addEventListener("click", () => {});
+        deleteBtnCell.appendChild(btnDelete);
+        rowP.appendChild(deleteBtnCell);
+
+        tblBody.appendChild(rowP);
+    }
+
+    _addParticipant(workshop, participant, tblBody) {
+        participant.id = workshop.id;
+        workshop.participants.push(participant);
+        console.log(workshop);
+        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        console.log(listWorkshops);
+        this._addParticipantsToTable(participant, tblBody);
+    }
+
+    _createForm(workshop, tblBody) {
         let divBlack = document.createElement("div");
         divBlack.classList = "divBlack";
+
+        console.log(workshop);
 
         this._body.appendChild(divBlack);
 
         let divForm = document.createElement("div")
         divForm.classList = "divForm";
 
-        var h1Form = document.createElement("H1") 
+        var h1Form = document.createElement("H1")
         h1Form.classList = "pt-2";
-        var h1FormText = document.createTextNode("REGISTER A PARTICIPANT"); 
+        var h1FormText = document.createTextNode("REGISTER A PARTICIPANT");
         h1Form.appendChild(h1FormText);
         divForm.appendChild(h1Form);
 
@@ -54,6 +106,7 @@ export default class Record {
         let inputName = document.createElement("input")
         inputName.type = "text";
         inputName.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
+        inputName.id = "inputName";
         divForm.appendChild(inputName);
 
         let labelBirthday = document.createElement("LABEL");
@@ -64,6 +117,7 @@ export default class Record {
         let inputBirthday = document.createElement("input")
         inputBirthday.type = "date";
         inputBirthday.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
+        inputBirthday.id = "inputBirthday";
         divForm.appendChild(inputBirthday);
 
         let labelEmail = document.createElement("LABEL");
@@ -74,6 +128,7 @@ export default class Record {
         let inputEmail = document.createElement("input")
         inputEmail.type = "email";
         inputEmail.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
+        inputEmail.id = "inputEmail";
         divForm.appendChild(inputEmail);
 
         let btnAdd = document.createElement("input");
@@ -81,6 +136,23 @@ export default class Record {
         btnAdd.value = "Add";
         btnAdd.className = "btn-add-student";
         btnAdd.addEventListener("click", () => {
+            let participantName = document.getElementById("inputName").value;
+            let participantBirthday = document.getElementById("inputBirthday").value;
+            let participantEmail = document.getElementById("inputEmail").value;
+
+            this._body.removeChild(divBlack);
+            this._body.removeChild(divForm);
+
+            let objParticipant = {
+                name: participantName,
+                birthday: participantBirthday,
+                email: participantEmail,
+                id: workshop.id
+            }
+
+            let participant = new Participant(objParticipant);
+
+            this._addParticipant(workshop, participant, tblBody);
         });
         divForm.appendChild(btnAdd);
 
@@ -89,6 +161,8 @@ export default class Record {
         btnCancel.value = "Cancel";
         btnCancel.className = "btn-cancel-student";
         btnCancel.addEventListener("click", () => {
+            this._body.removeChild(divBlack);
+            this._body.removeChild(divForm);
         });
         divForm.appendChild(btnCancel);
 
@@ -106,12 +180,21 @@ export default class Record {
         // Create the table
         let container = document.getElementById("container");
 
-        let wsTable = document.createElement("table");
+        var wsTable = document.createElement("table");
         wsTable.className = "table";
         var tblBody = document.createElement("tbody");
 
         // Create the headers' row
         var row = document.createElement("tr");
+        
+        /*
+        let divlogo = document.createElement("div");
+        let logo = document.createElement("img");
+        logo.src = "logo.png";
+        logo.setAttribute("width", "100px");
+        divlogo.appendChild(logo);
+        container.appendChild(divlogo);
+        */
 
         /*
         let logoCell = document.createElement("th");
@@ -126,6 +209,10 @@ export default class Record {
         let cell = document.createElement("th");
         cell.className = "th-h bg-info";
         let cellText = document.createTextNode(`"${workshop.name.toUpperCase()}"`);
+        let logo = document.createElement("img");
+        logo.src = "logoCropped.png";
+        logo.setAttribute("width", "22px");
+        cell.appendChild(logo);
         cell.appendChild(cellText);
         row.appendChild(cell);
 
@@ -192,16 +279,51 @@ export default class Record {
         btnAdd.value = "+";
         btnAdd.className = "btn-add";
         btnAdd.addEventListener("click", () => {
-            this._createForm(workshop);
+            this._createForm(workshop, tblBody);
         });
         btnCell.appendChild(btnAdd);
         row2.appendChild(btnCell);
 
+        // Participants
+        var row3 = document.createElement("tr");
+        row3.className = "border";
+
+        let nameCell = document.createElement("th");
+        nameCell.className = "studCell th";
+        let nameCellText = document.createTextNode(`Name:`);
+        nameCell.appendChild(nameCellText);
+        row3.appendChild(nameCell);
+
+        let bDateCell = document.createElement("th");
+        bDateCell.className = "studCell th";
+        let bDateCellText = document.createTextNode(`Birth date:`);
+        bDateCell.appendChild(bDateCellText);
+        row3.appendChild(bDateCell);
+
+        let emailCell = document.createElement("th");
+        emailCell.className = "studCell th";
+        let emailCellText = document.createTextNode(`Email:`);
+        emailCell.appendChild(emailCellText);
+        row3.appendChild(emailCell);
+
+        let blankPCell = document.createElement("th");
+        blankPCell.className = "studCell th";
+        let blankPCellText = document.createTextNode(``);
+        blankPCell.appendChild(blankPCellText);
+        row3.appendChild(blankPCell);
+
+        let blankBtnCell = document.createElement("th");
+        blankBtnCell.className = "addCell th";
+        row3.appendChild(blankBtnCell);
+
         tblBody.appendChild(row);
         tblBody.appendChild(row2);
+        tblBody.appendChild(row3);
 
         wsTable.appendChild(tblBody);
         container.appendChild(wsTable);
+
+        this._id++;
 
         let objWorkshop = {
             name: workshop.name,
@@ -209,7 +331,8 @@ export default class Record {
             fDate: workshop.getFinishDateAsString(),
             spots: workshop.spots,
             duration: workshop.duration,
-            participants: workshop.participants
+            participants: workshop.participants,
+            id: this._id,
         }
 
         this._workshops.push(objWorkshop);
@@ -219,6 +342,4 @@ export default class Record {
         this._addToRecord(workshop);
         localStorage.setItem("workshops", JSON.stringify(this._workshops));
     }
-
-
 }
