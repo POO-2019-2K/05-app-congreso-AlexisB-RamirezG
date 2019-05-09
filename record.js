@@ -77,6 +77,8 @@ export default class Record {
         workshop.participants.push(participant);
         console.log(workshop);
         let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        listWorkshops[workshop.id - 1] = workshop;
+        
         console.log(listWorkshops);
         this._addParticipantsToTable(participant, tblBody);
     }
