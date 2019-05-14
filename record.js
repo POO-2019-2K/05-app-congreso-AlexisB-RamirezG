@@ -78,9 +78,10 @@ export default class Record {
 
         let cell3 = document.createElement("th");
         cell3.className = "th-h bg-info";
-        let cellText3 = document.createTextNode(`SPOTS: ${workshop.spots}`);
+        cell3.textContent = `SPOTS: ${workshop.spots}`;
+        /* let cellText3 = document.createTextNode(`SPOTS: ${workshop.spots}`);
         cellText3.id = "spotsText";
-        cell3.appendChild(cellText3);
+        cell3.appendChild(cellText3); */
         row.appendChild(cell3);
 
         let cell4 = document.createElement("th");
@@ -140,7 +141,7 @@ export default class Record {
             if (nSpots > 0) {
                 workshop.id = this._id;
                 console.log(workshop.id);
-                this._createForm(workshop, tblBody, wsTable, container);
+                this._createForm(workshop, tblBody, wsTable, container, cell3);
             }
         });
         btnCell.appendChild(btnAdd);
@@ -256,7 +257,7 @@ export default class Record {
         });
     }
 
-    _addParticipant(workshop, participant, tblBody, wsTable, container) {
+    _addParticipant(workshop, participant, tblBody, wsTable, container, cell3) {
         participant.id = workshop.id;
         workshop.spots = workshop.spots - 1;
         let objParticipant = {
@@ -276,6 +277,7 @@ export default class Record {
             participants: workshop.participants,
             id: this._id,
         }
+        cell3.textContent = `SPOTS: ${objWorkshop.spots}`;
         let pos = this._findWorkshop(objWorkshop.name);
         listWorkshops[pos] = objWorkshop;
         console.log(listWorkshops);
@@ -284,7 +286,7 @@ export default class Record {
 
     }
 
-    _createForm(workshop, tblBody, wsTable, container, index) {
+    _createForm(workshop, tblBody, wsTable, container, cell3) {
         let divBlack = document.createElement("div");
         divBlack.classList = "divBlack";
 
@@ -355,7 +357,7 @@ export default class Record {
 
             let participant = new Participant(objParticipant);
 
-            this._addParticipant(workshop, participant, tblBody, wsTable, container, index);
+            this._addParticipant(workshop, participant, tblBody, wsTable, container, cell3);
         });
         divForm.appendChild(btnAdd);
 
