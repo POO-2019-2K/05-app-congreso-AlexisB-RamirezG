@@ -25,13 +25,17 @@ export default class Record {
         }
 
         listWorkshops.forEach((e, index) => {
-            console.log(e);
             e.sDate = this._getFormatedDate(e.sDate);
             e.fDate = this._getFormatedDate(e.fDate);
             let notYet = document.querySelector("#not-yet");
             notYet.innerHTML = "";
             this._addToRecord(new Workshop(e));
+            console.log(e.participants);
         });
+    }
+
+    _initParticipants() {
+
     }
 
     _addParticipantsToTable(participant, tblBody) {
@@ -66,7 +70,9 @@ export default class Record {
         btnDelete.type = "button";
         btnDelete.value = "x";
         btnDelete.className = "btn-delete";
-        btnDelete.addEventListener("click", () => {});
+        btnDelete.addEventListener("click", () => {
+            tblBody.removeChild(rowP);
+        });
         deleteBtnCell.appendChild(btnDelete);
         rowP.appendChild(deleteBtnCell);
 
@@ -76,7 +82,13 @@ export default class Record {
     _addParticipant(workshop, participant, tblBody) {
         participant.id = workshop.id;
         workshop.spots = workshop.spots - 1;
-        workshop.participants.push(participant);
+
+        let objParticipant = {
+            name: participant.name,
+            birthday: participant.birthday,
+            email: participant.email
+        }
+        workshop.participants.push(objParticipant);
         console.log(workshop);
         let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
         let objWorkshop = {
@@ -88,7 +100,7 @@ export default class Record {
             participants: workshop.participants,
             id: this._id,
         }
-        listWorkshops[workshop.id - 1] = objWorkshop;
+        listWorkshops[workshop.id-1] = objWorkshop;
         console.log(listWorkshops);
         this._addParticipantsToTable(participant, tblBody);
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
@@ -116,7 +128,7 @@ export default class Record {
         labelName.innerText = "Name:";
         divForm.appendChild(labelName);
 
-        let inputName = document.createElement("input")
+        let inputName = document.createElement("input");
         inputName.type = "text";
         inputName.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
         inputName.id = "inputName";
@@ -238,6 +250,7 @@ export default class Record {
         let cell3 = document.createElement("th");
         cell3.className = "th-h bg-info";
         let cellText3 = document.createTextNode(`SPOTS: ${workshop.spots}`);
+        cellText3.id = "spotsText";
         cell3.appendChild(cellText3);
         row.appendChild(cell3);
 
@@ -253,7 +266,9 @@ export default class Record {
         btnDelete.type = "button";
         btnDelete.value = "x";
         btnDelete.className = "btn-delete";
-        btnDelete.addEventListener("click", () => {});
+        btnDelete.addEventListener("click", () => {
+            container.removeChild(wsTable);
+        });
         cell5.appendChild(btnDelete);
         row.appendChild(cell5);
 
@@ -349,6 +364,10 @@ export default class Record {
         }
 
         this._workshops.push(objWorkshop);
+
+        workshop.participants.forEach((e, index) => {
+            this._addParticipantsToTable(e, tblBody);
+        });
     }
 
     addWorkshop(workshop) {
