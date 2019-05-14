@@ -62,4 +62,8 @@ export default class Workshop {
     set spots(spots) {
         this._spots = spots;
     }
+
+    set id(id) {
+        this._id = id;
+    }
 }
