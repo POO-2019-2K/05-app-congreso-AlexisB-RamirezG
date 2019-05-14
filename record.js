@@ -35,7 +35,7 @@ export default class Record {
 
     _addToRecord(workshop) {
         this._id++;
-        
+
         // Create the table
         let container = document.getElementById("container");
 
@@ -190,6 +190,19 @@ export default class Record {
         });
     }
 
+    _findWorkshop(name) {
+        let foundAt = -1;
+        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        listWorkshops.forEach((e, index) => {
+            if (e.name === name) {
+                foundAt = index;
+                return;
+            }
+        });
+
+        return foundAt;
+    }
+
     _addParticipantsToTable(participant, tblBody) {
         var rowP = document.createElement("tr");
         rowP.className = "border";
@@ -263,8 +276,8 @@ export default class Record {
             participants: workshop.participants,
             id: this._id,
         }
-        let index = workshop.id;
-        listWorkshops[index - 1] = objWorkshop;
+        let pos = this._findWorkshop(objWorkshop.name);
+        listWorkshops[pos] = objWorkshop;
         console.log(listWorkshops);
         this._addParticipantsToTable(participant, tblBody);
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
@@ -357,13 +370,6 @@ export default class Record {
         divForm.appendChild(btnCancel);
 
         this._body.appendChild(divForm);
-
-        /*
-        let tmpRow = document.createElement("tr");
-        tmpRow.className = "border";
-        tmpRow.innerHTML = "Hola";
-        tblBody.appendChild(tmpRow);
-        */
     }
 
     addWorkshop(workshop) {
