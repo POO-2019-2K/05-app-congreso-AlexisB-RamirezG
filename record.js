@@ -5,7 +5,7 @@ export default class Record {
     constructor(body) {
         this._workshops = [];
         this._body = body;
-        // localStorage.removeItem("workshops");
+        //localStorage.removeItem("workshops");
         this._id = 0;
 
         this._initRecord();
@@ -79,10 +79,22 @@ export default class Record {
         tblBody.appendChild(rowP);
     }
 
-    _addParticipant(workshop, participant, tblBody) {
+    _deleteRecord(wsTable, container) {
+        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        console.log(listWorkshops);
+
+        if (listWorkshops === null) {
+            return;
+        }
+
+        listWorkshops.forEach((e, index) => {
+            container.removeChild(wsTable);
+        });
+    }
+
+    _addParticipant(workshop, participant, tblBody, wsTable, container) {
         participant.id = workshop.id;
         workshop.spots = workshop.spots - 1;
-
         let objParticipant = {
             name: participant.name,
             birthday: participant.birthday,
@@ -104,9 +116,12 @@ export default class Record {
         console.log(listWorkshops);
         this._addParticipantsToTable(participant, tblBody);
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
+        this._deleteRecord(wsTable, container); 
+        this._initRecord();
+
     }
 
-    _createForm(workshop, tblBody) {
+    _createForm(workshop, tblBody, wsTable, container) {
         let divBlack = document.createElement("div");
         divBlack.classList = "divBlack";
 
@@ -177,7 +192,7 @@ export default class Record {
 
             let participant = new Participant(objParticipant);
 
-            this._addParticipant(workshop, participant, tblBody);
+            this._addParticipant(workshop, participant, tblBody, wsTable, container);
         });
         divForm.appendChild(btnAdd);
 
@@ -306,8 +321,12 @@ export default class Record {
         btnAdd.type = "button";
         btnAdd.value = "+";
         btnAdd.className = "btn-add";
+        let nSpots = workshop.spots;
         btnAdd.addEventListener("click", () => {
-            this._createForm(workshop, tblBody);
+            console.log(nSpots);
+            if (nSpots > 0) {
+                this._createForm(workshop, tblBody, wsTable, container);
+            }
         });
         btnCell.appendChild(btnAdd);
         row2.appendChild(btnCell);
