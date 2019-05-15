@@ -96,8 +96,10 @@ export default class Record {
         btnDelete.type = "button";
         btnDelete.value = "x";
         btnDelete.className = "btn-delete";
+        let wName = workshop.name;
         btnDelete.addEventListener("click", () => {
             container.removeChild(wsTable);
+            this._deleteWorkshop(wName);
         });
         cell5.appendChild(btnDelete);
         row.appendChild(cell5);
@@ -189,6 +191,14 @@ export default class Record {
         workshop.participants.forEach((e, index) => {
             this._addParticipantsToTable(e, tblBody);
         });
+    }
+
+    _deleteWorkshop(wName) {
+        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        let index = this._findWorkshop(wName);
+        listWorkshops.splice(index, 1);
+        console.log(listWorkshops);
+        localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
     _findWorkshop(name) {
