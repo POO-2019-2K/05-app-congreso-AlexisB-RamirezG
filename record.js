@@ -189,7 +189,7 @@ export default class Record {
         container.appendChild(wsTable);
 
         workshop.participants.forEach((e, index) => {
-            this._addParticipantsToTable(e, tblBody);
+            this._addParticipantsToTable(e, tblBody, wName);
         });
     }
 
@@ -198,6 +198,16 @@ export default class Record {
         let index = this._findWorkshop(wName);
         listWorkshops.splice(index, 1);
         console.log(listWorkshops);
+        localStorage.setItem("workshops", JSON.stringify(listWorkshops));
+    }
+
+    _deleteParticipant(wName, pName) {
+        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        let wIndex = this._findWorkshop(wName);
+        let participantL = listWorkshops[wIndex].participants;
+        let pIndex = this._findParticipant(participantL, pName);
+        participantL.splice(pIndex, 1);
+        listWorkshops[wIndex].participants = participantL;
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
@@ -214,7 +224,19 @@ export default class Record {
         return foundAt;
     }
 
-    _addParticipantsToTable(participant, tblBody) {
+    _findParticipant(participantL, pName) {
+        let foundAt = -1;
+        participantL.forEach((e, index) => {
+            if (e.name === pName) {
+                foundAt = index;
+                return;
+            }
+        });
+
+        return foundAt;
+    }
+
+    _addParticipantsToTable(participant, tblBody, wName) {
         var rowP = document.createElement("tr");
         rowP.className = "border";
 
@@ -246,8 +268,10 @@ export default class Record {
         btnDelete.type = "button";
         btnDelete.value = "x";
         btnDelete.className = "btn-delete";
+        let pName = participant.name;
         btnDelete.addEventListener("click", () => {
             tblBody.removeChild(rowP);
+            this._deleteParticipant(wName, pName);
         });
         deleteBtnCell.appendChild(btnDelete);
         rowP.appendChild(deleteBtnCell);
@@ -291,7 +315,7 @@ export default class Record {
         let pos = this._findWorkshop(objWorkshop.name);
         listWorkshops[pos] = objWorkshop;
         console.log(listWorkshops);
-        this._addParticipantsToTable(participant, tblBody);
+        this._addParticipantsToTable(participant, tblBody, objWorkshop.name);
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
 
     }
