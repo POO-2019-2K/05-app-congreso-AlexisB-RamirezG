@@ -233,6 +233,11 @@ export default class Record {
     _findWorkshop(name) {
         let foundAt = -1;
         let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+
+        if (listWorkshops === null) {
+            return;
+        }
+
         listWorkshops.forEach((e, index) => {
             if (e.name === name) {
                 foundAt = index;
@@ -271,7 +276,6 @@ export default class Record {
         let pIndex = this._findParticipant(participantL, pName);
         participantL.splice(pIndex, 1);
         listWorkshops[wIndex].participants = participantL;
-        cell3.textContent = `SPOTS: ${listWorkshops[wIndex].spots}`
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
@@ -309,25 +313,13 @@ export default class Record {
         btnDelete.className = "btn-delete";
         let pName = participant.name;
         btnDelete.addEventListener("click", () => {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.value) {
-                    tblBody.removeChild(rowP);
-                    this._deleteParticipant(wName, pName, cell3);
-                    Swal.fire(
-                        'Deleted!',
-                        'The participant has been deleted',
-                        'success'
-                    )
-                }
-            })
+            tblBody.removeChild(rowP);
+            this._deleteParticipant(wName, pName, cell3);
+            Swal.fire(
+                'Deleted!',
+                'The participant has been deleted',
+                'success'
+            )
         });
         deleteBtnCell.appendChild(btnDelete);
         rowP.appendChild(deleteBtnCell);
@@ -459,22 +451,11 @@ export default class Record {
     }
 
     addWorkshop(workshop) {
-        let index = this._findWorkshop(workshop.name);
-
-        if (index > -1) {
-            Swal.fire({
-                type: 'error',
-                title: "Can't add workshop",
-                text: "This workshop has already been registered",
-                timer: 3500
-            })
-        } else {
-            this._addToRecord(workshop);
-            Swal.fire({
-                type: 'success',
-                title: 'Workshop added!',
-                timer: 1500
-            })
-        }
+        this._addToRecord(workshop);
+        Swal.fire({
+            type: 'success',
+            title: 'Workshop added!',
+            timer: 1500
+        })
     }
 }
