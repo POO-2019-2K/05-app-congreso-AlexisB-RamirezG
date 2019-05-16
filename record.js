@@ -313,13 +313,25 @@ export default class Record {
         btnDelete.className = "btn-delete";
         let pName = participant.name;
         btnDelete.addEventListener("click", () => {
-            tblBody.removeChild(rowP);
-            this._deleteParticipant(wName, pName, cell3);
-            Swal.fire(
-                'Deleted!',
-                'The participant has been deleted',
-                'success'
-            )
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    tblBody.removeChild(rowP);
+                    this._deleteParticipant(wName, pName, cell3);
+                    Swal.fire(
+                        'Deleted!',
+                        'The participant has been deleted',
+                        'success'
+                    )
+                }
+            })
         });
         deleteBtnCell.appendChild(btnDelete);
         rowP.appendChild(deleteBtnCell);
