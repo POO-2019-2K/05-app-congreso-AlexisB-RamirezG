@@ -99,13 +99,37 @@ export default class Record {
         btnDelete.value = "x";
         btnDelete.className = "btn-delete";
         btnDelete.addEventListener("click", () => {
-            let index = this._findWorkshop(wName);
-            let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
-            let nParticipants = listWorkshops[index].participants.length;
-            if(nParticipants === 0) {
-                container.removeChild(wsTable);
-            this._deleteWorkshop(wName);
-            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    let index = this._findWorkshop(wName);
+                    let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+                    let nParticipants = listWorkshops[index].participants.length;
+                    if (nParticipants === 0) {
+                        container.removeChild(wsTable);
+                        this._deleteWorkshop(wName);
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Workshop deleted!',
+                            timer: 1500
+                        })
+                    } else {
+                        Swal.fire({
+                            type: 'error',
+                            title: "Can't delete!",
+                            text: "You can't delete a workshop if there are participants registered",
+                            timer: 4000
+                        })
+                    }
+                }
+            })
         });
         cell5.appendChild(btnDelete);
         row.appendChild(cell5);
@@ -150,6 +174,13 @@ export default class Record {
             let nSpots = listWorkshops[index].spots;
             if (nSpots > 0) {
                 this._createForm(workshop, tblBody, wsTable, container, cell3);
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: "Can't register participant!",
+                    text: "You can't register a participant if there are no spots available",
+                    timer: 4000
+                })
             }
         });
         btnCell.appendChild(btnAdd);
@@ -207,13 +238,15 @@ export default class Record {
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
-    _deleteParticipant(wName, pName) {
+    _deleteParticipant(wName, pName, cell3) {
         let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
         let wIndex = this._findWorkshop(wName);
         let participantL = listWorkshops[wIndex].participants;
+        listWorkshops[wIndex].spots++;
         let pIndex = this._findParticipant(participantL, pName);
         participantL.splice(pIndex, 1);
         listWorkshops[wIndex].participants = participantL;
+        cell3.textContent = `SPOTS: ${listWorkshops[wIndex].spots}`
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
@@ -242,7 +275,7 @@ export default class Record {
         return foundAt;
     }
 
-    _addParticipantsToTable(participant, tblBody, wName) {
+    _addParticipantsToTable(participant, tblBody, wName, cell3) {
         var rowP = document.createElement("tr");
         rowP.className = "border";
 
@@ -276,25 +309,30 @@ export default class Record {
         btnDelete.className = "btn-delete";
         let pName = participant.name;
         btnDelete.addEventListener("click", () => {
-            tblBody.removeChild(rowP);
-            this._deleteParticipant(wName, pName);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    tblBody.removeChild(rowP);
+                    this._deleteParticipant(wName, pName, cell3);
+                    Swal.fire(
+                        'Deleted!',
+                        'The participant has been deleted',
+                        'success'
+                    )
+                }
+            })
         });
         deleteBtnCell.appendChild(btnDelete);
         rowP.appendChild(deleteBtnCell);
 
         tblBody.appendChild(rowP);
-    }
-
-    _deleteRecord(wsTable, container) {
-        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
-
-        if (listWorkshops === null) {
-            return;
-        }
-
-        listWorkshops.forEach((e, index) => {
-            container.removeChild(wsTable);
-        });
     }
 
     _addParticipant(workshop, participant, tblBody, wsTable, container, cell3) {
@@ -321,7 +359,7 @@ export default class Record {
         let pos = this._findWorkshop(objWorkshop.name);
         listWorkshops[pos] = objWorkshop;
         console.log(listWorkshops);
-        this._addParticipantsToTable(participant, tblBody, objWorkshop.name);
+        this._addParticipantsToTable(participant, tblBody, objWorkshop.name, cell3);
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
 
     }
@@ -398,6 +436,12 @@ export default class Record {
             let participant = new Participant(objParticipant);
 
             this._addParticipant(workshop, participant, tblBody, wsTable, container, cell3);
+
+            Swal.fire({
+                type: 'success',
+                title: 'Participant added!',
+                timer: 1500
+            })
         });
         divForm.appendChild(btnAdd);
 
@@ -416,5 +460,10 @@ export default class Record {
 
     addWorkshop(workshop) {
         this._addToRecord(workshop);
+        Swal.fire({
+            type: 'success',
+            title: 'Workshop added!',
+            timer: 1500
+        })
     }
 }
