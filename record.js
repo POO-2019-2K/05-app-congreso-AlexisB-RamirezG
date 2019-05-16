@@ -173,7 +173,7 @@ export default class Record {
             let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
             let nSpots = listWorkshops[index].spots;
             if (nSpots > 0) {
-                this._createForm(workshop, tblBody, wsTable, container, cell3);
+                this._createForm(workshop, tblBody, wsTable, container, cell3, wName);
             } else {
                 Swal.fire({
                     type: 'error',
@@ -248,10 +248,15 @@ export default class Record {
         return foundAt;
     }
 
-    _findParticipant(participantL, pName) {
+    _findParticipant(participantL, pEmail) {
         let foundAt = -1;
+        
+        if (participantL === null) {
+            return;
+        }
+        
         participantL.forEach((e, index) => {
-            if (e.name === pName) {
+            if (e.email === pEmail) {
                 foundAt = index;
                 return;
             }
@@ -268,12 +273,12 @@ export default class Record {
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
-    _deleteParticipant(wName, pName, cell3) {
+    _deleteParticipant(wName, pEmail, cell3) {
         let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
         let wIndex = this._findWorkshop(wName);
         let participantL = listWorkshops[wIndex].participants;
         listWorkshops[wIndex].spots++;
-        let pIndex = this._findParticipant(participantL, pName);
+        let pIndex = this._findParticipant(participantL, pEmail);
         participantL.splice(pIndex, 1);
         listWorkshops[wIndex].participants = participantL;
         localStorage.setItem("workshops", JSON.stringify(listWorkshops));
@@ -311,7 +316,7 @@ export default class Record {
         btnDelete.type = "button";
         btnDelete.value = "x";
         btnDelete.className = "btn-delete";
-        let pName = participant.name;
+        let pEmail = participant.email;
         btnDelete.addEventListener("click", () => {
             Swal.fire({
                 title: 'Are you sure?',
@@ -324,7 +329,7 @@ export default class Record {
             }).then((result) => {
                 if (result.value) {
                     tblBody.removeChild(rowP);
-                    this._deleteParticipant(wName, pName, cell3);
+                    this._deleteParticipant(wName, pEmail, cell3);
                     Swal.fire(
                         'Deleted!',
                         'The participant has been deleted',
@@ -368,86 +373,122 @@ export default class Record {
 
     }
 
-    _createForm(workshop, tblBody, wsTable, container, cell3) {
+    _createForm(workshop, tblBody, wsTable, container, cell3, wName) {
         let divBlack = document.createElement("div");
         divBlack.classList = "divBlack";
-
-        console.log(workshop);
 
         this._body.appendChild(divBlack);
 
         let divForm = document.createElement("div")
         divForm.classList = "divForm";
 
+        let form = document.createElement("form");
+        form.className = 'needs-validation formCreate';
+        form.noValidate = true;
+
         var h1Form = document.createElement("H1")
         h1Form.classList = "pt-2";
         var h1FormText = document.createTextNode("REGISTER A PARTICIPANT");
         h1Form.appendChild(h1FormText);
-        divForm.appendChild(h1Form);
+        form.appendChild(h1Form);
 
         let labelName = document.createElement("LABEL");
         labelName.classList = "label-dynamic-form";
         labelName.innerText = "Name:";
-        divForm.appendChild(labelName);
+        form.appendChild(labelName);
 
         let inputName = document.createElement("input");
         inputName.type = "text";
         inputName.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
         inputName.id = "inputName";
-        divForm.appendChild(inputName);
+        inputName.required = true;
+        let invalName = document.createElement("div");
+        invalName.textContent = "Name is needed";
+        invalName.className = "invalid-feedback pl-4";
+        form.appendChild(inputName);
+        form.appendChild(invalName);
 
         let labelBirthday = document.createElement("LABEL");
         labelBirthday.classList = "label-dynamic-form";
         labelBirthday.innerText = "Birth date:";
-        divForm.appendChild(labelBirthday);
+        form.appendChild(labelBirthday);
 
         let inputBirthday = document.createElement("input")
         inputBirthday.type = "date";
         inputBirthday.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
         inputBirthday.id = "inputBirthday";
-        divForm.appendChild(inputBirthday);
+        inputBirthday.required = true;
+        let invalBDate = document.createElement("div");
+        invalBDate.textContent = "Birth date is needed";
+        invalBDate.className = "invalid-feedback pl-4";
+        form.appendChild(inputBirthday);
+        form.appendChild(invalBDate);
 
         let labelEmail = document.createElement("LABEL");
         labelEmail.classList = "label-dynamic-form";
         labelEmail.innerText = "Email:";
-        divForm.appendChild(labelEmail);
+        form.appendChild(labelEmail);
 
         let inputEmail = document.createElement("input")
         inputEmail.type = "email";
         inputEmail.classList = "form-control form-control-md border inputFormDynamic col-md-10 ml-4";
         inputEmail.id = "inputEmail";
-        divForm.appendChild(inputEmail);
+        inputEmail.required = true;
+        let invalEmail = document.createElement("div");
+        invalEmail.textContent = "Birth date is needed";
+        invalEmail.className = "invalid-feedback pl-4";
+        form.appendChild(inputEmail);
+        form.appendChild(invalEmail);
 
         let btnAdd = document.createElement("input");
         btnAdd.type = "button";
         btnAdd.value = "Add";
         btnAdd.className = "btn-add-student";
         btnAdd.addEventListener("click", () => {
-            let participantName = document.getElementById("inputName").value;
-            let participantBirthday = document.getElementById("inputBirthday").value;
-            let participantEmail = document.getElementById("inputEmail").value;
+            if (form.checkValidity() === true) {
+                let participantName = document.getElementById("inputName").value;
+                let participantBirthday = document.getElementById("inputBirthday").value;
+                let participantEmail = document.getElementById("inputEmail").value;
 
-            this._body.removeChild(divBlack);
-            this._body.removeChild(divForm);
+                let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+                let wIndex = this._findWorkshop(wName);
+                let participantL = listWorkshops[wIndex].participants;
+                let pIndex = this._findParticipant(participantL, participantEmail);
 
-            let objParticipant = {
-                name: participantName,
-                birthday: participantBirthday,
-                email: participantEmail,
-                id: workshop.id
+                if (pIndex > -1) {
+                    Swal.fire({
+                        type: 'error',
+                        title: "Can't add participant!",
+                        text: "This participant has already been registered",
+                        timer: 1500
+                    })
+                    this._body.removeChild(divBlack);
+                    this._body.removeChild(divForm);
+                } else {
+                    this._body.removeChild(divBlack);
+                    this._body.removeChild(divForm);
+
+                    let objParticipant = {
+                        name: participantName,
+                        birthday: participantBirthday,
+                        email: participantEmail,
+                        id: workshop.id
+                    }
+
+                    let participant = new Participant(objParticipant);
+
+                    this._addParticipant(workshop, participant, tblBody, wsTable, container, cell3);
+
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Participant added!',
+                        timer: 1500
+                    })
+                }
             }
-
-            let participant = new Participant(objParticipant);
-
-            this._addParticipant(workshop, participant, tblBody, wsTable, container, cell3);
-
-            Swal.fire({
-                type: 'success',
-                title: 'Participant added!',
-                timer: 1500
-            })
+            form.classList.add('was-validated');
         });
-        divForm.appendChild(btnAdd);
+        form.appendChild(btnAdd);
 
         let btnCancel = document.createElement("input");
         btnCancel.type = "button";
@@ -457,7 +498,9 @@ export default class Record {
             this._body.removeChild(divBlack);
             this._body.removeChild(divForm);
         });
-        divForm.appendChild(btnCancel);
+        form.appendChild(btnCancel);
+
+        divForm.appendChild(form);
 
         this._body.appendChild(divForm);
     }
