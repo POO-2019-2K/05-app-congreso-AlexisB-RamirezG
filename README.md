@@ -1,4 +1,6 @@
- # Ejercicio 5 El Congreso
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fd45bb2e0ca241a6a2b2db0790a64b35)](https://www.codacy.com/app/AlexisB-RamirezG/05-app-congreso-AlexisB-RamirezG?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=POO-2019-2K/05-app-congreso-AlexisB-RamirezG&amp;utm_campaign=Badge_Grade)
+
+# Ejercicio 5 El Congreso
 
 ## Tiempo para realizar la actividad
 
