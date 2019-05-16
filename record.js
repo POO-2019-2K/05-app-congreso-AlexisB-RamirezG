@@ -230,26 +230,6 @@ export default class Record {
         });
     }
 
-    _deleteWorkshop(wName) {
-        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
-        let index = this._findWorkshop(wName);
-        listWorkshops.splice(index, 1);
-        console.log(listWorkshops);
-        localStorage.setItem("workshops", JSON.stringify(listWorkshops));
-    }
-
-    _deleteParticipant(wName, pName, cell3) {
-        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
-        let wIndex = this._findWorkshop(wName);
-        let participantL = listWorkshops[wIndex].participants;
-        listWorkshops[wIndex].spots++;
-        let pIndex = this._findParticipant(participantL, pName);
-        participantL.splice(pIndex, 1);
-        listWorkshops[wIndex].participants = participantL;
-        cell3.textContent = `SPOTS: ${listWorkshops[wIndex].spots}`
-        localStorage.setItem("workshops", JSON.stringify(listWorkshops));
-    }
-
     _findWorkshop(name) {
         let foundAt = -1;
         let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
@@ -273,6 +253,26 @@ export default class Record {
         });
 
         return foundAt;
+    }
+
+    _deleteWorkshop(wName) {
+        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        let index = this._findWorkshop(wName);
+        listWorkshops.splice(index, 1);
+        console.log(listWorkshops);
+        localStorage.setItem("workshops", JSON.stringify(listWorkshops));
+    }
+
+    _deleteParticipant(wName, pName, cell3) {
+        let listWorkshops = JSON.parse(localStorage.getItem("workshops"));
+        let wIndex = this._findWorkshop(wName);
+        let participantL = listWorkshops[wIndex].participants;
+        listWorkshops[wIndex].spots++;
+        let pIndex = this._findParticipant(participantL, pName);
+        participantL.splice(pIndex, 1);
+        listWorkshops[wIndex].participants = participantL;
+        cell3.textContent = `SPOTS: ${listWorkshops[wIndex].spots}`
+        localStorage.setItem("workshops", JSON.stringify(listWorkshops));
     }
 
     _addParticipantsToTable(participant, tblBody, wName, cell3) {
@@ -459,11 +459,22 @@ export default class Record {
     }
 
     addWorkshop(workshop) {
-        this._addToRecord(workshop);
-        Swal.fire({
-            type: 'success',
-            title: 'Workshop added!',
-            timer: 1500
-        })
+        let index = this._findWorkshop(workshop.name);
+
+        if (index > -1) {
+            Swal.fire({
+                type: 'error',
+                title: "Can't add workshop",
+                text: "This workshop has already been registered",
+                timer: 3500
+            })
+        } else {
+            this._addToRecord(workshop);
+            Swal.fire({
+                type: 'success',
+                title: 'Workshop added!',
+                timer: 1500
+            })
+        }
     }
 }
