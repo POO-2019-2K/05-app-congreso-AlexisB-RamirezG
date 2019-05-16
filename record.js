@@ -451,11 +451,22 @@ export default class Record {
     }
 
     addWorkshop(workshop) {
-        this._addToRecord(workshop);
-        Swal.fire({
-            type: 'success',
-            title: 'Workshop added!',
-            timer: 1500
-        })
+        let index = this._findWorkshop(workshop.name);
+
+        if (index > -1) {
+            Swal.fire({
+                type: 'error',
+                title: "Can't add workshop!",
+                text: "This workshop has already been registered",
+                timer: 1500
+            })
+        } else {
+            this._addToRecord(workshop);
+            Swal.fire({
+                type: 'success',
+                title: 'Workshop added!',
+                timer: 1500
+            })
+        }
     }
 }
